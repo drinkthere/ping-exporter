@@ -1,0 +1,6 @@
+vendor/
+.idea
+bin/ping-exporter
+bin/logs
+*.DS_Store
+*.env
