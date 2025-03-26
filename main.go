@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"os"
 	"ping-exporter/config"
+	"ping-exporter/utils/logger"
 	"runtime"
 )
 
@@ -20,6 +21,9 @@ func main() {
 
 	// 加载配置文件
 	globalConfig = *config.LoadConfig(os.Args[1])
+
+	// 设置日志级别, 并初始化日志
+	logger.InitLogger(globalConfig.LogPath, globalConfig.LogLevel)
 
 	// Define the /metrics endpoint
 	http.HandleFunc("/metrics", func(w http.ResponseWriter, r *http.Request) {

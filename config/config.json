@@ -51,5 +51,6 @@
   "LogLevel": "INFO",
   "LogPath": "/data/dc/ping-exporter/pe.log",
   "Port": 9200,
-  "PrometheusTag": "ping_latency"
+  "PrometheusTag": "ping_latency",
+  "PingTimes": 10
 }
