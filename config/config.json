@@ -49,7 +49,7 @@
     "172.31.16.162"
   ],
   "LogLevel": "INFO",
-  "LogPath": "./logs/bp.log",
+  "LogPath": "/data/dc/ping-exporter/pe.log",
   "Port": 9200,
   "PrometheusTag": "ping_latency"
 }

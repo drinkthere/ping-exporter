@@ -24,9 +24,9 @@ func LoopPingAws(cfg *config.Config) string {
 			go func(src, tgt string) {
 				defer wg.Done()
 
-				// Ping the source-target combination 10 times
-				latency := pingWithMinimum(src, tgt, cfg.Port)
-
+				// Ping the source-target combination
+				latency := pingWithMinimum(src, tgt, cfg.PingTimes)
+				logger.Info("Minimum latency from %s to %s: %.5fms", src, tgt, latency)
 				// Update the fastest latency if applicable
 				mutex.Lock()
 				defer mutex.Unlock()

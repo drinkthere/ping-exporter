@@ -18,6 +18,8 @@ type Config struct {
 	Port int
 	// 上报Prometheus时，exporter的Tag
 	PrometheusTag string
+	// 每组IP ping的次数
+	PingTimes int
 }
 
 func LoadConfig(filename string) *Config {
