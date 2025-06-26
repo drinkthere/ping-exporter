@@ -6,6 +6,7 @@ import (
 	"ping-exporter/config"
 	"ping-exporter/utils/logger"
 	"sync"
+	"time"
 )
 
 func LoopPingAws(cfg *config.Config) string {
@@ -61,12 +62,22 @@ func pingWithMinimum(sourceIP, targetIP string, count int) float64 {
 		return minLatency
 	}
 	pinger.SetSource(sourceIP)
-	pinger.Count = count // 设置 Ping 次数为 10
-	err = pinger.Run()   // 阻塞直到完成
+	pinger.Count = count                                // 设置 Ping 次数为 10
+	pinger.Timeout = time.Duration(count) * time.Second // 设置总超时时间
+	pinger.Interval = 200 * time.Millisecond            // 每次ping之间的间隔
+
+	err = pinger.Run() // 阻塞直到完成
 	if err != nil {
 		logger.Error("Ping Source IP %s -> Target IP %s Failed %+v", sourceIP, targetIP, err)
 		return minLatency
 	}
 	stats := pinger.Statistics() // 获取 Ping 统计信息
+
+	// 如果没有收到任何回复，返回-1
+	if stats.PacketsRecv == 0 {
+		logger.Error("No response from %s -> %s", sourceIP, targetIP)
+		return minLatency
+	}
+
 	return float64(stats.MinRtt.Microseconds()) / 1000
 }
